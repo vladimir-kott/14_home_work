@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import QualitieService from "../services/qualitie.service";
+import qualitieService from "../services/qualitie.service";
 import { toast } from "react-toastify";
 
 const QualitieContext = React.createContext();
@@ -28,17 +28,13 @@ export const QualitieProvider = ({ children }) => {
         setError(message);
     }
     function getQualitie(id) {
-        return qualities.find((p) => p._id === id);
+        return qualities.find((p) => p._id === id.id);
     }
 
     async function getQualitiesList() {
-        try {
-            const { content } = await QualitieService.get();
-            setQualities(content);
-            setLoading(false);
-        } catch (error) {
-            errorCatcher(error);
-        }
+        const { content } = await qualitieService.fetchAll();
+        setQualities(content);
+        setLoading(false);
     }
 
     return (
